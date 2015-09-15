@@ -22,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/bdemirel/cs_ia/issues"
   },
-  "homepage": "https://github.com/bdemirel/cs_ia#readme"
+  "homepage": "https://github.com/bdemirel/cs_ia#readme",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^5.0.5",
+    "less-middleware": "^2.0.1",
+    "mongodb": "^1.4.39",
+    "mongoskin": "^1.4.13",
+    "morgan": "^1.6.1"
+  }
 }
