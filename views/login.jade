@@ -1,5 +1,11 @@
 extends ./layout.jade
 
 block content
-  include ./header.jade
-  
+  div#login_box
+    span Hello, World!
+    form(method='POST')
+      input(type='text', name='uname', placeholder='username')
+      br
+      input(type='password', name='pword', placeholder='password')
+      br
+      input(type='submit', name='submit', value='Sign In')

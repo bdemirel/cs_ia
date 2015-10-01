@@ -7,6 +7,8 @@ var router = require('express').Router(),
 router.use(bodyParser.urlencoded({extended:true}));
 router.post('/', function(req, res)
 {
+  console.log(req.body.uname, req.body.pword);
+  /*
   var uname = req.body.uname,
       pword = req.body.pword,
       users = db.collection('users');
@@ -16,6 +18,7 @@ router.post('/', function(req, res)
     db.close();
     res.status(200).json({'auth':true, 'token':token});
   });
+  */
 });
 router.get('/', function(req, res)
 {
