@@ -8,17 +8,20 @@ router.use(bodyParser.urlencoded({extended:true}));
 router.post('/', function(req, res)
 {
   console.log(req.body.uname, req.body.pword);
-  /*
   var uname = req.body.uname,
       pword = req.body.pword,
       users = db.collection('users');
   users.find({'uname':uname}).toArray(function(err, user)
   {
-    var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresInMinutes':true});
-    db.close();
-    res.status(200).json({'auth':true, 'token':token});
+    if (err) console.log(err);
+    //ERROR: user.uname is not defined
+    if (user.uname&&user.pword)
+    {
+      var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresInMinutes':true});
+      db.close();
+      res.status(200).json({'auth':true, 'token':token});
+    }
   });
-  */
 });
 router.get('/', function(req, res)
 {
