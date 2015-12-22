@@ -14,12 +14,17 @@ router.post('/', function(req, res)
   users.find({'uname':uname}).toArray(function(err, user)
   {
     if (err) console.log(err);
-    //ERROR: user.uname is not defined
-    if (user.uname&&user.pword)
+    user = user[0];
+    if (pword==user.pword)
     {
       var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresInMinutes':true});
       db.close();
       res.status(200).json({'auth':true, 'token':token});
+    }
+    else
+    {
+      db.close();
+      res.status(401).json({'auth': false});
     }
   });
 });
