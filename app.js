@@ -9,7 +9,7 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname + '/public'));
-//app.use('/', index);
+app.use('/', index);
 app.use('/login', login);
 app.use('/signup', signup);
 
