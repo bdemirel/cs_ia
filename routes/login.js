@@ -7,6 +7,7 @@ var router = require('express').Router(),
 router.use(bodyParser.urlencoded({extended:true}));
 router.post('/', function(req, res)
 {
+  console.log('post');
   console.log(req.body.uname, req.body.pword);
   var uname = req.body.uname,
       pword = req.body.pword,
@@ -30,7 +31,9 @@ router.post('/', function(req, res)
 });
 router.get('/', function(req, res)
 {
-  res.render('login');
+  //console.log('get');
+  //res.render('login');
+  res.send('Hello World');
 });
 
 module.exports = router;
