@@ -16,11 +16,15 @@ router.post('/', function(req, res)
   {
     if (err) console.log(err);
     user = user[0];
-    if (pword==user.pword)
+    if ((user)&&(pword==user.pword))
     {
-      var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresInMinutes':true});
+      var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresIn':600});
       db.close();
-      res.status(200).json({'auth':true, 'token':token});
+      jwt.verify(token, '1TxKX8l2I7', function(err, tkn){
+        res.status(200).json({'auth':true, 'token':token});
+      console.log(tkn, token);
+      console.log(typeof token);
+      });
     }
     else
     {
@@ -33,7 +37,8 @@ router.get('/', function(req, res)
 {
   //console.log('get');
   //res.render('login');
-  res.send('Hello World');
+  //res.send('Hello World');
+  res.redirect('/');
 });
 
 module.exports = router;

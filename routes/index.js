@@ -5,14 +5,19 @@ var jwt = require('jsonwebtoken'),
 router.use(cookieParser());
 
 router.get('/', function(req, res) {
+  //console.log(req.cookies.SESS_TKN);
   if (req.cookies.jwt) {
-    var token = jwt.verify(req.cookies.jwt, '1TxKxX8l2I7');
-    console.log(token);
-    if (token) {
-      res.render('index');
-    } else {
-      res.render('login');
-    }
+    console.log(req.cookies.jwt);
+    console.log(typeof req.cookies.jwt);
+    jwt.verify(req.cookies.jwt, '1TxKxX8l2I7', function(err, token){
+      console.log("err:"+err);
+      console.log("tkn:"+token);
+      if (token) {
+        res.render('index');
+      } else {
+        res.render('login');
+      }
+    });
   }
   else {
     res.render('login');
