@@ -1,4 +1,15 @@
 extends ./layout.jade
 
+//- var items = !{items};
+- console.log(items);
 block content
-  
+  table
+    tr
+      td No:
+      td Info
+      td Sit
+    each val in items
+      tr
+        td._id #{val._id}
+        td.info #{val.info}
+        td.sit #{val.sit}

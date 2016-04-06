@@ -32,9 +32,6 @@ router.post('/', function(req, res)
 });
 router.get('/', function(req, res)
 {
-  //console.log('get');
-  //res.render('login');
-  //res.send('Hello World');
   res.redirect('/');
 });
 

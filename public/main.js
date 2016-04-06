@@ -1,8 +1,9 @@
 $(document).ready(function(){
+  var result;
   /*
   *Functions
   */
-  function log_in(){
+  function logIn(){
     $.ajax({
       url: '/login',
       method: 'POST',
@@ -25,11 +26,46 @@ $(document).ready(function(){
     });
   }
 
+  function saveItem(callback){
+    $.ajax({
+      url: '/item',
+      method: 'POST',
+      data: $("input").serialize()
+    }).done(function(data){
+      result = data;
+      callback();
+    }).fail(function(){
+      result = false;
+      callback();
+    });
+  }
+
   /*
   *Event Listeners
   */
   $("form").submit(function(event){
     event.preventDefault();
-    log_in();
+    logIn();
+  });
+
+  $("td").dblclick(function(){
+    var cell = $(this);
+    value = $(this).html();
+    name = $(this).attr('class');
+    id = $('td:first', $(this).parents('tr')).text();
+    $(this).html("<input id='editing' name='"+name+"' type='text' value='"+value+"'><input type='hidden' name='_id' value='"+id+"'>");
+    $("#editing").focus();
+    $("#editing").focusout(function(){
+      saveItem(function(){
+        if (result){
+          console.log("What?!?"+result);
+          cell.html(result);
+        }
+        else{
+          console.log("This is f w..."+value);
+          cell.html(value);
+        }
+      });
+    });
   });
 });
