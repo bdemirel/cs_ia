@@ -7,8 +7,6 @@ var router = require('express').Router(),
 router.use(bodyParser.urlencoded({extended:true}));
 router.post('/', function(req, res)
 {
-  console.log('post');
-  console.log(req.body.uname, req.body.pword);
   var uname = req.body.uname,
       pword = req.body.pword,
       users = db.collection('users');
@@ -18,12 +16,11 @@ router.post('/', function(req, res)
     user = user[0];
     if ((user)&&(pword==user.pword))
     {
-      var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, '1TxKX8l2I7', {'expiresIn':600});
+      var secret = new Buffer('1TxKX8l2I7', 'base64');
+      var token = jwt.sign({'uname':user.uname, 'pword':user.pword}, secret, {'expiresIn':600});
       db.close();
-      jwt.verify(token, '1TxKX8l2I7', function(err, tkn){
+      jwt.verify(token, secret, function(err, tkn){
         res.status(200).json({'auth':true, 'token':token});
-      console.log(tkn, token);
-      console.log(typeof token);
       });
     }
     else
