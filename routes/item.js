@@ -6,8 +6,7 @@ var router = require('express').Router(),
     items = db.collection('items');
 
 router.use(bodyParser.urlencoded({extended:true}));
-router.post('/', function(req, res)
-{
+router.post('/', function(req, res){
   var _id = req.body._id,
       name = null,
       val = null;
@@ -24,8 +23,24 @@ router.post('/', function(req, res)
       console.log(err);
       res.sendStatus(500);
     }
-    console.log(resu);
     res.send(val);
+  });
+});
+
+router.put('/', function(req, res){
+  var id;
+  items.find({}, { _id:1}).sort({_id:-1}).limit(1).toArray(function(err,last){
+    console.log(last);
+    last = last[0]._id;
+    id = last+1;
+console.log("Why not this?"+last);
+    items.insert({"_id":id, "info":req.body.info, "sit":req.body.sit}, function(err, resu){
+      if(err){
+        console.log(err);
+        res.sendStatus(500);
+      }
+      res.sendStatus(200);
+    });
   });
 });
 

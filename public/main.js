@@ -26,11 +26,11 @@ $(document).ready(function(){
     });
   }
 
-  function saveItem(callback){
+  function saveEdit(callback){
     $.ajax({
       url: '/item',
       method: 'POST',
-      data: $("input").serialize()
+      data: $("input#editing").serialize()
     }).done(function(data){
       result = data;
       callback();
@@ -40,6 +40,17 @@ $(document).ready(function(){
     });
   }
 
+  function saveNew(){
+    $.ajax({
+      url: '/item',
+      method: 'PUT',
+      data: $("input:not(#editing)").serialize()
+    }).done(function(){
+      window.location.reload();
+    }).fail(function(){
+      alert("Error saving value!");
+    });
+  }
   /*
   *Event Listeners
   */
@@ -48,7 +59,7 @@ $(document).ready(function(){
     logIn();
   });
 
-  $("td").dblclick(function(){
+  $("td:not(._id)").dblclick(function(){
     var cell = $(this);
     value = $(this).html();
     name = $(this).attr('class');
@@ -56,16 +67,30 @@ $(document).ready(function(){
     $(this).html("<input id='editing' name='"+name+"' type='text' value='"+value+"'><input type='hidden' name='_id' value='"+id+"'>");
     $("#editing").focus();
     $("#editing").focusout(function(){
-      saveItem(function(){
+      saveEdit(function(){
         if (result){
-          console.log("What?!?"+result);
           cell.html(result);
         }
         else{
-          console.log("This is f w..."+value);
           cell.html(value);
         }
       });
     });
   });
+
+  $(document).keypress(function(e){
+    if (e.which == 13){
+      $('#editing').focusout();
+    }
+  });
+
+  $("button#new").click(function(){
+    $("tr:last").after("<tr><td><button class='save'>Save</button></td><td><input type='text' placeholder='Description' name='info'></td><td><input type='text' placeholder='Sitiuation' name='sit'></td></tr>");
+    $(this).css({"display":"none"});
+    $("button.save").click(function(){
+      saveNew();
+      $("button#new").css({"display":"inline"});
+    });
+  });
+
 });
